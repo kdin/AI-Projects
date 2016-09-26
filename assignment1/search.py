@@ -74,7 +74,17 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 
-def genericSearch(problem, fringe):
+
+
+
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+def genericSearch(problem, fringe, heuristic=nullHeuristic):
     """ Implementation of a generic search
             - starts from a state
             - Expands nodes and puts into fringe
@@ -84,17 +94,22 @@ def genericSearch(problem, fringe):
     
 
     startState = problem.getStartState()
-    print "STARTSTATE::", startState
-    print "SUCCESSORS", problem.getSuccessors(startState)
-    print "SUCCESSORS", problem.getSuccessors(problem.getSuccessors(startState)[1][0])
-    print "igs", problem.isGoalState(problem.getSuccessors(startState)[0])
+    # print "STARTSTATE::", startState
+    # print "SUCCESSORS", problem.getSuccessors(startState)
+    # print "SUCCESSORS", problem.getSuccessors(problem.getSuccessors(startState)[1][0])
+    # print "igs", problem.isGoalState(problem.getSuccessors(startState)[0])
+    pathFringe = fringe.__class__()
+    path = ["START"]
     
+
+
     startState = [startState, "STOP", 0]
     if fringe.__class__ == util.PriorityQueue:
         fringe.push(startState, 0)   
+        pathFringe.push((path, 0), 0)
     else:
         fringe.push(startState)
-    
+        pathFringe.push(path)
     
     exploredStates = []
 
@@ -102,65 +117,68 @@ def genericSearch(problem, fringe):
     treeDict[startState[0]] = []
     treeDict[startState[0]].append("STOP")
 
+    expandedOrder = []
+    inTheFringe = []
+    inTheFringe.append(startState[0])
+
+    
+    
     while  (not fringe.isEmpty()):
-        print "INSIDE WHILE"
+        # print "INSIDE WHILE"
         nextState = fringe.pop()
-        print "NEXT STATE::", nextState
+        pathFringeState = pathFringe.pop()
+        # print type(pathFringeState)
+        # print pathFringeState
+        expandedOrder.append(nextState[0])
+        # print "NEXT STATE::", nextState
 
         if (nextState[0]) not in exploredStates:
             if problem.isGoalState(nextState[0]):
-                print "THIS HAS REACHED HERE"
+                if fringe.__class__ == util.PriorityQueue:
+                    return pathFringeState[0][1:]
+                else:
+                    return pathFringeState[1:]
+                # print "THIS HAS REACHED HERE"
                 break
-            print "Now here"
-            # successors = filter(lambda successor:successor[0] not in exploredStates, problem.getSuccessors((nextState[0], nextState[1])))
+            # print "Now here"
+            # successors = filter(lambda successor:successor[0] not in inTheFringe, problem.getSuccessors(nextState[0]))
             successors = problem.getSuccessors(nextState[0])
-            print "SUCCESSORS::", successors
+            
             
             exploredStates.append(nextState[0])
             
             for successor in successors:
-                if fringe.__class__ == util.PriorityQueue:
-                    fringe.push(successor, successor[2])    
-                else:
-                    fringe.push(successor)
 
-                treeDict[successor[0]] = []
-                treeDict[successor[0]] += treeDict[nextState[0]]
-                treeDict[successor[0]].append(successor[1])
-                print treeDict[successor[0]]
+                
+
+                if fringe.__class__ == util.PriorityQueue:
+                    toPath = []
+                    toPath += pathFringeState[0]
+                    toPath.append(successor[1])
+                    pathCost = pathFringeState[1] + successor[2]
+                    fringe.push(successor, pathCost+heuristic(successor[0], problem))    
+                    pathFringe.push((toPath, pathCost), pathCost+heuristic(successor[0], problem))
+                else:
+                    toPath = []
+                    toPath += pathFringeState
+                    toPath.append(successor[1])
+                    fringe.push(successor)
+                    pathFringe.push(toPath)
+
+                if successor[0] not in treeDict:
+                    treeDict[successor[0]] = []
+                    treeDict[successor[0]] += treeDict[nextState[0]]
+                    treeDict[successor[0]].append(successor[1])
+
+
+
+
+                # print treeDict[successor[0]]
         
     
-    # if problem.isGoalState((nextState[0], nextState[1])):
-    #     itr = len(nextState) - 2
-
-    #     from game import Directions, Actions
-    #     path = []
-
-    #     statesList = list(nextState)
-    #     statesList.reverse()
-
-    #     xiterator = 0
-    #     yiterator = 1
-        
-    #     print "STATES LIST", statesList
-
-    #     while yiterator + 2<len(statesList):
-    #         dx = statesList[xiterator + 2] - statesList[xiterator]
-    #         dy = statesList[yiterator + 2] - statesList[yiterator]
-    #         xiterator += 2
-    #         yiterator += 2
-    #         print "VECTORS:", (dx, dy)
-    #         path.append(Actions.vectorToDirection((dy, dx)))
-
-        # print "STATES LIST", statesList
-        # while itr>0:
-
-        #     path.append(Actions.vectorToDirection((nextState[itr], nextState[itr - 1])))
-            
-        #     itr = itr - 1
-
-        # print "PATH::", path
-    print "PATH 2::", treeDict[nextState[0]][1:]
+    # print "PATH 2::", treeDict[nextState[0]][1:]
+    # print "INCLUDED ORDER", includedOrder
+    # print "EXPANDED ORDER", expandedOrder
     return treeDict[nextState[0]][1:]#["South","South","South","West","West","North","West","West"]   
 
 
@@ -197,16 +215,10 @@ def uniformCostSearch(problem):
     return genericSearch(problem, util.PriorityQueue())
     util.raiseNotDefined()
 
-def nullHeuristic(state, problem=None):
-    """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
-    """
-    return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
+    return genericSearch(problem, util.PriorityQueue(), heuristic)
     util.raiseNotDefined()
 
 
