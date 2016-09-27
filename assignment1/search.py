@@ -121,25 +121,29 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
     inTheFringe = []
     inTheFringe.append(startState[0])
 
-    
-    
     while  (not fringe.isEmpty()):
         # print "INSIDE WHILE"
         nextState = fringe.pop()
         pathFringeState = pathFringe.pop()
         # print type(pathFringeState)
         # print pathFringeState
-        expandedOrder.append(nextState[0])
-        # print "NEXT STATE::", nextState
 
+        # print "NEXT STATE::", nextState
+        print "GOAL-POSITIONS", vars(problem)['goalState']
+        print "THE-STATE", nextState[0]
+
+        if problem.isGoalState(nextState[0]):
+            if fringe.__class__ == util.PriorityQueue:
+                return pathFringeState[0][1:]
+            else:
+                print "THE-PATH", pathFringeState
+
+                return pathFringeState[1:]
+
+            # print "THIS HAS REACHED HERE"
+            break
         if (nextState[0]) not in exploredStates:
-            if problem.isGoalState(nextState[0]):
-                if fringe.__class__ == util.PriorityQueue:
-                    return pathFringeState[0][1:]
-                else:
-                    return pathFringeState[1:]
-                # print "THIS HAS REACHED HERE"
-                break
+            
             # print "Now here"
             # successors = filter(lambda successor:successor[0] not in inTheFringe, problem.getSuccessors(nextState[0]))
             successors = problem.getSuccessors(nextState[0])
@@ -148,8 +152,6 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
             exploredStates.append(nextState[0])
             
             for successor in successors:
-
-                
 
                 if fringe.__class__ == util.PriorityQueue:
                     toPath = []
@@ -165,16 +167,16 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
                     fringe.push(successor)
                     pathFringe.push(toPath)
 
-                if successor[0] not in treeDict:
-                    treeDict[successor[0]] = []
-                    treeDict[successor[0]] += treeDict[nextState[0]]
-                    treeDict[successor[0]].append(successor[1])
+                # if successor[0] not in treeDict:
+                #     treeDict[successor[0]] = []
+                #     treeDict[successor[0]] += treeDict[nextState[0]]
+                #     treeDict[successor[0]].append(successor[1])
 
 
 
 
                 # print treeDict[successor[0]]
-        
+            
     
     # print "PATH 2::", treeDict[nextState[0]][1:]
     # print "INCLUDED ORDER", includedOrder
