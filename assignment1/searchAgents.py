@@ -311,6 +311,7 @@ class CornersProblem(search.SearchProblem):
         """
         Returns whether this search state is a goal state of the problem.
         """
+        
         return state[1].count() == 0
         # print "PASSED STATE", state       
         if state[0] in state[1]:
@@ -576,6 +577,37 @@ class ClosestDotSearchAgent(SearchAgent):
         self.actionIndex = 0
         print 'Path found with cost %d.' % len(self.actions)
 
+    def mazeDistance(self, point1, point2, gameState):
+        """
+        Returns the maze distance between any two points, using the search functions
+        you have already built. The gameState can be any game state -- Pacman's
+        position in that state is ignored.
+
+        Example usage: mazeDistance( (2,4), (5,6), gameState)
+
+        This might be a useful helper function for your ApproximateSearchAgent.
+        """
+        x1, y1 = point1
+        x2, y2 = point2
+        walls = gameState.getWalls()
+        assert not walls[x1][y1], 'point1 is a wall: ' + str(point1)
+        assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
+        prob = PositionSearchProblem(gameState, start=point1, goal=point2, warn=False, visualize=False)
+        return len(search.bfs(prob))
+
+
+    def getMinManhattanPoint(self, position, pointList, gameState):
+        foodList = pointList
+        minimum = 1000000000
+        closest = ()
+        for point in pointList:
+            dist = self.mazeDistance(point, position, gameState)
+            if (dist) < minimum:
+                closest = point
+                minimum = dist
+        
+        return closest
+
     def findPathToClosestDot(self, gameState):
         """
         Returns a path (a list of actions) to the closest dot, starting from
@@ -586,8 +618,17 @@ class ClosestDotSearchAgent(SearchAgent):
         food = gameState.getFood()
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
+        foodLocations = food.asList()
 
-        "*** YOUR CODE HERE ***"
+        closestPoint = self.getMinManhattanPoint(gameState.getPacmanPosition(), foodLocations, gameState)
+        
+        if closestPoint != ():
+            problem.goalState = closestPoint
+
+        import search
+
+        return search.breadthFirstSearch(problem)
+        
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -615,6 +656,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         self.startState = gameState.getPacmanPosition()
         self.costFn = lambda x: 1
         self._visited, self._visitedlist, self._expanded = {}, [], 0 # DO NOT CHANGE
+        self.goalState = ()
 
     def isGoalState(self, state):
         """
@@ -622,8 +664,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
+        
+        return state == self.goalState
 
-        "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
 def mazeDistance(point1, point2, gameState):
