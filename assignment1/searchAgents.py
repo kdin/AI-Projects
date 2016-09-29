@@ -501,6 +501,8 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
         self.searchType = FoodSearchProblem
 
+
+
 def mazeDistance(point1, point2, gameState):
     """
     Returns the maze distance between any two points, using the search functions
@@ -552,13 +554,44 @@ def foodHeuristic(state, problem):
     # print "WALLS::", problem.walls.asList()
     foodList = foodGrid.asList()
 
-    manhattanList = map(lambda pos: abs(pos[0] - position[0]) + abs(pos[1] - position[1]), foodList)
-    # mazeList = map(lambda pos: mazeDistance(position, pos, problem.startingGameState), foodList)
+    # manhattanList = map(lambda pos: abs(pos[0] - position[0]) + abs(pos[1] - position[1]), foodList)
+    # if len(manhattanList) == 0:
+    #     return 0
+    manhattanList = []
+    minimum = 100000
+    maximum = 0
+    farthest = ()
+    closest = ()
+    for foodPosition in foodList:
+        positionx, positiony = position
+        foodx, foody = foodPosition
+
+        firstCorner = (positionx, foody)
+        secondCorner = (foodx, positiony)
+
+        dist = abs(positionx - foodx) + abs(positiony - foody)
+
+        if dist < minimum:
+            closest = foodPosition
+            minimum = dist
+
+        if dist > maximum:
+            farthest = foodPosition
+            maximum = dist
+
+        if firstCorner in problem.walls and secondCorner in problem.walls:
+            manhattanList.append(dist + 2)
+        else:
+            manhattanList.append(dist)
+
+
+
     if len(manhattanList) == 0:
         return 0
 
-    manhattanList.sort()
-    return (min(manhattanList) + max(manhattanList))/2
+    else:       
+        return mazeDistance(closest, position, problem.startingGameState)#max(manhattanList)
+
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
