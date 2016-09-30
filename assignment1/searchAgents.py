@@ -313,30 +313,13 @@ class CornersProblem(search.SearchProblem):
         """
         
         return state[1].count() == 0
-        # print "PASSED STATE", state       
+        
         if state[0] in state[1]:
             state[1].remove(state[0])
         if len(state[1]) == 0:
             return True
 
         return False
-        # if len(self.goalState) == 0:
-        #     return True
-        # else:
-        #     if state in self.goalState:
-        #         self.goalState.remove(state)
-        #     return False
-
-        # parentPath = []
-        # for path in self.pathFringe:
-        #     if state == path[-1]:
-        #         parentPath = path
-
-        # if self.goalState[0] in parentPath and self.goalState[1] in parentPath and self.goalState[2] in parentPath and self.goalState[3] in parentPath:
-        #     return True
-        # else:
-        #     return False
-
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -349,37 +332,6 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
-        # successors = []
-        # for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            # Add a successor state to the successor list if the action is legal
-            # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
-
-
-
-
-            
-        # successors = []
-        # for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-        #     x,y = state[0]
-        #     dx, dy = Actions.directionToVector(action)
-        #     nextx, nexty = int(x + dx), int(y + dy)
-        #     if not self.walls[nextx][nexty]:
-        #         nextState = (nextx, nexty)
-        #         cost = self.costFn(nextState)
-        #         successors.append( ( (nextState, state[1]), action, cost) )
-
-
-
-
-        # self._expanded += 1 # DO NOT CHANGE
-        # return successors
-
-
         successors = []
         self._expanded += 1 # DO NOT CHANGE
         for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
@@ -431,8 +383,6 @@ def cornersHeuristic(state, problem):
     # mazeList = map(lambda pos: mazeDistance(position, pos, problem.startingGameState), foodList)
     if len(manhattanList) == 0:
         return 0
-
-    # manhattanList.sort()
     return max(manhattanList)
 
     
@@ -502,8 +452,7 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchType = FoodSearchProblem
 
 
-
-def mazeDistance(point1, point2, gameState):
+def mazeDistance_points(point1, point2, gameState):
     """
     Returns the maze distance between any two points, using the search functions
     you have already built. The gameState can be any game state -- Pacman's
@@ -550,47 +499,14 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    # print "WALLS::", problem.walls.asList()
+
     foodList = foodGrid.asList()
 
-    # manhattanList = map(lambda pos: abs(pos[0] - position[0]) + abs(pos[1] - position[1]), foodList)
-    # if len(manhattanList) == 0:
-    #     return 0
-    manhattanList = []
-    minimum = 100000
-    maximum = 0
-    farthest = ()
-    closest = ()
-    for foodPosition in foodList:
-        positionx, positiony = position
-        foodx, foody = foodPosition
-
-        firstCorner = (positionx, foody)
-        secondCorner = (foodx, positiony)
-
-        dist = abs(positionx - foodx) + abs(positiony - foody)
-
-        if dist < minimum:
-            closest = foodPosition
-            minimum = dist
-
-        if dist > maximum:
-            farthest = foodPosition
-            maximum = dist
-
-        if firstCorner in problem.walls and secondCorner in problem.walls:
-            manhattanList.append(dist + 2)
-        else:
-            manhattanList.append(dist)
-
-
-
-    if len(manhattanList) == 0:
+    if len(foodList) == 0:
         return 0
 
     else:       
-        return mazeDistance(closest, position, problem.startingGameState)#max(manhattanList)
+        return max(map(lambda foodPos: mazeDistance_points(foodPos, position, problem.startingGameState), foodList))
 
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -628,13 +544,20 @@ class ClosestDotSearchAgent(SearchAgent):
         prob = PositionSearchProblem(gameState, start=point1, goal=point2, warn=False, visualize=False)
         return len(search.bfs(prob))
 
+    def euclideanHeuristic(self,position1, position2, info={}):
+        "The Euclidean distance heuristic for a PositionSearchProblem"
+        xy1 = position1
+        xy2 = position2
+        return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
+
 
     def getMinManhattanPoint(self, position, pointList, gameState):
         foodList = pointList
         minimum = 1000000000
         closest = ()
         for point in pointList:
-            dist = self.mazeDistance(point, position, gameState)
+            # dist = self.mazeDistance(point, position, gameState)
+            dist = self.euclideanHeuristic(point, position)
             if (dist) < minimum:
                 closest = point
                 minimum = dist

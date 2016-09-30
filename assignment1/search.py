@@ -96,10 +96,6 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
     
 
     startState = problem.getStartState()
-    # print "STARTSTATE::", startState
-    # print "SUCCESSORS", problem.getSuccessors(startState)
-    # print "SUCCESSORS", problem.getSuccessors(problem.getSuccessors(startState)[1][0])
-    # print "igs", problem.isGoalState(problem.getSuccessors(startState)[0])
     pathFringe = fringe.__class__()
     path = ["START"]
     
@@ -121,45 +117,22 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
     inTheFringe.append(startState[0])
 
     while  (not fringe.isEmpty()):
-        # print "INSIDE WHILE"
+        
         nextState = fringe.pop()
         pathFringeState = pathFringe.pop()
-        # print type(pathFringeState)
-        # print pathFringeState
-
-        # print "NEXT STATE::", nextState
-
         expandedCheck = nextState[0] not in exploredStates
-        # if problem.__class__ == "searchAgents.CornersProblem":
-        #     expandedCheck = problem.getExpandedCheck(nextState[0])
-        #     if not expandedCheck:
-        #         expandedCheck = nextState[0] not in exploredStates    
-        #     print "EXPANDED CHECK", expandedCheck
-        # else:
-        #     expandedCheck = nextState[0] not in exploredStates
-
-        # print "WHOLE", nextState
-        # print "PASSED::", nextState[0]
+        
         if problem.isGoalState(nextState[0]):
-            # print "WHOLE", nextState
-            # print "PASSED::", nextState[0]
+        
             if fringe.__class__ == util.PriorityQueue:
                 return pathFringeState[0][1:]
             else:
-                # print "THE-PATH", pathFringeState
-
                 return pathFringeState[1:] 
-
-            # print "THIS HAS REACHED HERE"
             break
 
-        # if (nextState[0]) not in exploredStates:
         if expandedCheck:    
-            # print "Now here"
-            # successors = filter(lambda successor:successor[0] not in inTheFringe, problem.getSuccessors(nextState[0]))
+
             successors = problem.getSuccessors(nextState[0])
-            
-            # print len(exploredStates)
             exploredStates.append(nextState[0])
             
             for successor in successors:
@@ -178,21 +151,7 @@ def genericSearch(problem, fringe, heuristic=nullHeuristic):
                     fringe.push(successor)
                     pathFringe.push(toPath)
 
-                # if successor[0] not in treeDict:
-                #     treeDict[successor[0]] = []
-                #     treeDict[successor[0]] += treeDict[nextState[0]]
-                #     treeDict[successor[0]].append(successor[1])
-
-
-
-
-                # print treeDict[successor[0]]
-            
-    
-    # print "PATH 2::", treeDict[nextState[0]][1:]
-    # print "INCLUDED ORDER", includedOrder
-    # print "EXPANDED ORDER", expandedOrder
-    return pathFringeState[1:]#treeDict[nextState[0]][1:]#["South","South","South","West","West","North","West","West"]   
+    return pathFringeState[1:]
 
 
 
