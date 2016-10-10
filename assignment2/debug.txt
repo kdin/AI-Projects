@@ -1,0 +1,517 @@
+Starting on 10-9 at 23:19:16
+
+Question q2
+===========
+
+EVAL-VAL 3.0
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 3.0
+EVAL-VAL 12.0
+MINIMIZER-ACTION Center VALUE: 3.0 OBTAINED: 12.0
+EVAL-VAL 8.0
+MINIMIZER-ACTION Right VALUE: 3.0 OBTAINED: 8.0
+(VALUE, BESTACTION) (3.0, 'Left')
+MAXIMIZER-ACTION Left VALUE: 3.0 OBTAINED: 3.0
+EVAL-VAL 5.0
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 5.0
+EVAL-VAL 4.0
+MINIMIZER-ACTION Center VALUE: 5.0 OBTAINED: 4.0
+EVAL-VAL 6.0
+MINIMIZER-ACTION Right VALUE: 4.0 OBTAINED: 6.0
+(VALUE, BESTACTION) (4.0, 'Center')
+MAXIMIZER-ACTION Center VALUE: 4.0 OBTAINED: 4.0
+EVAL-VAL 14.0
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 14.0
+EVAL-VAL 1.0
+MINIMIZER-ACTION Center VALUE: 14.0 OBTAINED: 1.0
+EVAL-VAL 11.0
+MINIMIZER-ACTION Right VALUE: 1.0 OBTAINED: 11.0
+(VALUE, BESTACTION) (1.0, 'Center')
+MAXIMIZER-ACTION Right VALUE: 4.0 OBTAINED: 1.0
+*** PASS: test_cases\q2\0-lecture-6-tree.test
+MINIMIZER-ACTION gLeft VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION gRight VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'gLeft')
+MAXIMIZER-ACTION pacLeft VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION gLeft VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION pacLeft VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION gRight VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, 'gLeft')
+MAXIMIZER-ACTION pacRight VALUE: -100000 OBTAINED: -100000
+*** FAIL: test_cases\q2\0-small-tree.test
+***     Incorrect move for depth=3
+***         Student move: 
+***         Optimal move: pacLeft
+***     Tree:
+***             root
+***            /    \
+***      minLeft  minRight
+***       / \       /    \
+***      A   B     C   deeper
+***      4   3     2     |
+***                      D
+***                    1000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+*** PASS: test_cases\q2\1-1-minmax.test
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+*** FAIL: test_cases\q2\1-2-minmax.test
+***     Incorrect move for depth=3
+***         Student move: Left
+***         Optimal move: Right
+***     Tree:
+***                 /-----a------\
+***                /              \
+***               /                \
+***             b1                  b2
+***           /    \                 |
+***        c1        c2             cx
+***       /  \      /  \             |
+***      d1   d2  d3   d4           dx
+***     -3    -9  10    6         -2.99
+***     
+***     a - max
+***     b - min
+***     c - max
+***     
+***     Note that the minimax value of b1 is -3.
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+*** PASS: test_cases\q2\1-3-minmax.test
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+*** FAIL: test_cases\q2\1-4-minmax.test
+***     Incorrect move for depth=3
+***         Student move: Left
+***         Optimal move: Right
+***     Tree:
+***                 /-----a------\
+***                /              \
+***               /                \
+***             b1                  b2
+***              |                /    \
+***             cx             c3        c4
+***              |            /   \     /   \
+***             dx           d5   d6   d7   d8
+***            3.99          4    -7   0    5
+***     
+***     a - max
+***     b - min
+***     c - max
+***     
+***     Note that the minimax value of b2 is 4.
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+*** FAIL: test_cases\q2\1-5-minmax.test
+***     Incorrect move for depth=4
+***         Student move: 
+***         Optimal move: Right
+***     Tree:
+***                  /-----a------\
+***                 /              \
+***                /                \
+***              b1                  b2
+***            /    \                |
+***         c1        c2             cx
+***        /  \      /  \            |
+***       d1   d2  d3   d4           dx
+***      / \  / \  / \  / \          |
+***      A B  C D  E F  G H          Z
+***     -3 13 5 9 10 3 -6 8        3.01
+***     
+***     a - max
+***     b - min
+***     c - max
+***     d - min
+***     
+***     Note the minimax value of b1 is 3.
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+*** FAIL: test_cases\q2\1-6-minmax.test
+***     Incorrect move for depth=4
+***         Student move: 
+***         Optimal move: Left
+***     Tree:
+***                  /-----a------\
+***                 /              \
+***                /                \
+***              b1                  b2
+***            /    \                |
+***         c1        c2             cx
+***        /  \      /  \            |
+***       d1   d2  d3   d4           dx
+***      / \  / \  / \  / \          |
+***      A B  C D  E F  G H          Z
+***     -3 13 5 9 10 3 -6 8        2.99
+***     
+***     a - max
+***     b - min
+***     c - max
+***     d - min
+***     
+***     Note the minimax value of b1 is 3.
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, '')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, '')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+*** FAIL: test_cases\q2\1-7-minmax.test
+***     Incorrect move for depth=4
+***         Student move: 
+***         Optimal move: Left
+***     Tree:
+***                 /-----a------\
+***                /              \
+***               /                \
+***             b1                  b2
+***             |                 /    \
+***             cx             c3        c4
+***             |             /   \     /   \
+***             dx           d5   d6   d7   d8
+***             |           / \  / \  / \  / \ 
+***             Z           I J  K L  M N  O P
+***          -1.99        -1 -9  4 7  2 5 -3 -2
+***     
+***     a - max
+***     b - min
+***     c - min
+***     d - max
+***     
+***     Note that the minimax value of b2 is -2
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Down VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Down VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Down VALUE: 100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Down')
+MAXIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Down VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, '')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Left VALUE: 100000 OBTAINED: 100000
+(VALUE, BESTACTION) (100000, '')
+MAXIMIZER-ACTION Right VALUE: 100000 OBTAINED: 100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: 100000
+(VALUE, BESTACTION) (-100000, '')
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Left VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (100000, '')
+(VALUE, BESTACTION) (100000, '')
+MINIMIZER-ACTION Left VALUE: 100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, 'Left')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+MINIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+(VALUE, BESTACTION) (-100000, '')
+MAXIMIZER-ACTION Right VALUE: -100000 OBTAINED: -100000
+*** FAIL: test_cases\q2\1-8-minmax.test
+***     Incorrect move for depth=4
+***         Student move: 
+***         Optimal move: Right
+***     Tree:
+***                 /-----a------\
+***                /              \
+***               /                \
+***             b1                  b2
+***             |                 /    \
+***             cx             c3        c4
+***             |             /   \     /   \
+***             dx           d5   d6   d7   d8 
+***             |           / \  / \  / \  / \ 
+***             Z           I J  K L  M N  O P
+***          -2.01        -1 -9  4 7  2 5 -3 -2
+***     
+***     a - max
+***     b - min
+***     c - min
+***     d - max
+***     
+***     Note that the minimax value of b2 is -2.01
+*** FAIL: Exception raised: getScore() called on non-terminal state or before maximum depth achieved.
+*** 
+*** Traceback (most recent call last):
+***   File "C:\Users\KD\Google Drive\FAI\kdin\assignment2\grading.py", line 76, in grade
+***     util.TimeoutFunction(getattr(gradingModule, q),300)(self) # Call the question's function
+***   File "C:\Users\KD\Google Drive\FAI\kdin\assignment2\util.py", line 619, in __call__
+***     result = self.function(*args, **keyArgs)
+***   File "autograder.py", line 296, in <lambda>
+***     return lambda grades: question.execute(grades)
+***   File "C:\Users\KD\Google Drive\FAI\kdin\assignment2\testClasses.py", line 58, in execute
+***     if not f(grades):
+***   File "autograder.py", line 291, in <lambda>
+***     return lambda grades: testCase.execute(grades, moduleDict, solutionDict)
+***   File "multiagentTestClasses.py", line 398, in execute
+***     action, generated = self.solveProblem(multiAgents)
+***   File "multiagentTestClasses.py", line 385, in solveProblem
+***     action = studentAgent.getAction(self.problem.startState)
+***   File "multiAgents.py", line 221, in getAction
+***     return self.maximizer(gameState, 0, self.depth + 1)[1]
+***   File "multiAgents.py", line 179, in maximizer
+***     evalVal = self.evaluationFunction(gameState)
+***   File "multiAgents.py", line 114, in scoreEvaluationFunction
+***     return currentGameState.getScore()
+***   File "multiagentTestClasses.py", line 57, in getScore
+***     raise Exception('getScore() called on non-terminal state or before maximum depth achieved.')
+*** Exception: getScore() called on non-terminal state or before maximum depth achieved.
+*** 
+
+### Question q2: 0/5 ###
+
+
+Finished at 23:19:16
+
+Provisional grades
+==================
+Question q2: 0/5
+------------------
+Total: 0/5
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
