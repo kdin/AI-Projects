@@ -321,65 +321,69 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
     """
       Your expectimax agent (question 4)
     """
-    def minimizer(self, gameState, agentIndex, depth, alpha, beta):
+    def minimizer(self, gameState, agentIndex, depth):
 
       bestAction = ''
 
       if gameState.isWin() or gameState.isLose():
-        return (self.evaluationFunction(gameState), bestAction)
+        return (float(self.evaluationFunction(gameState)), bestAction)
 
 
-      value = 100000
+      # value = 100000
 
       actionList = gameState.getLegalActions(agentIndex)
 
+      if len(actionList) != 0:
+        weight = float (1)/ float(len(actionList))
+      expectimax_value = float(0)
+
+
       for action in actionList:
-        prevValue = value
+
         if agentIndex == gameState.getNumAgents() - 1:
-          toMax = self.maximizer(gameState.generateSuccessor(agentIndex, action), 0, depth, alpha, beta)
-          value = min(value, toMax[0])
+          toMax = self.maximizer(gameState.generateSuccessor(agentIndex, action), 0, depth)
+          expectimax_value += (float(toMax[0])* weight)
         else:
-          toMin = self.minimizer(gameState.generateSuccessor(agentIndex, action), agentIndex + 1, depth, alpha, beta)
-          value = min(value, toMin[0])
+          toMin = self.minimizer(gameState.generateSuccessor(agentIndex, action), agentIndex + 1, depth)
+          expectimax_value += (float(toMin[0])* weight)
 
-        if prevValue > value:
-          bestAction = action
-
-        if value < alpha:
-          return (value, bestAction)
-
-        beta = min (beta, value)
-
-      return (value, bestAction)
+      expectimax_value = (expectimax_value) / float(len(actionList))
+      return (expectimax_value, " ")
 
 
 
-    def maximizer(self, gameState, agentIndex, depth, alpha, beta):
+    def maximizer(self, gameState, agentIndex, depth):
 
       bestAction = ''
 
       if depth == self.depth or gameState.isWin() or gameState.isLose():
 
-        evalVal = self.evaluationFunction(gameState)
+        evalVal = float(self.evaluationFunction(gameState))
         return (evalVal, bestAction)
 
 
-      value = -100000
+      value = float(-999999999)
       actionList = gameState.getLegalActions(agentIndex)   
-
+      debugList = []
       for action in actionList:
         prevValue = value
-        toMin = self.minimizer(gameState.generateSuccessor(agentIndex, action), 1, depth + 1, alpha, beta)
+        toMin = self.minimizer(gameState.generateSuccessor(agentIndex, action), 1, depth + 1)
         value = max(value, toMin[0])
-        
+        debugList.append((value,action))
         if value > prevValue:
           bestAction = action
 
-        if value > beta:
-          return (value, bestAction)
 
-        alpha = max(alpha, value)
+      if bestAction == 'Stop':
+        equalityList = filter(lambda pair: pair[0] != value,debugList)
 
+        if len(equalityList) != 0:
+          pairsList = filter(lambda pair:pair[1] != 'Stop',debugList)
+          bestAction = filter(lambda pair:pair[0]==value,pairsList)[-1][1]
+          
+        if bestAction == 'East':
+          print "DEBUG-LIST", debugList
+      # print "DEBUG-LIST", debugList, "BEST-ACTION", bestAction
 
       return (value, bestAction)
 
@@ -391,9 +395,8 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           legal moves.
         """
         "*** YOUR CODE HERE ***"
-        alpha = -1000000
-        beta = 1000000
-        return self.maximizer(gameState, 0, 0, alpha, beta)[1] 
+
+        return self.maximizer(gameState, 0, 0)[1] 
         util.raiseNotDefined()
 
 def betterEvaluationFunction(currentGameState):
