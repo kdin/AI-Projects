@@ -84,24 +84,34 @@ class ReflexAgent(Agent):
         manhattanList = map(lambda pos : self.getManhattanDistance(newPos, pos), newFood.asList())
 
         if len(manhattanList) == 0:
-          foodVec = 0
+          return 10000
         else:
-          foodVec = (1/min(manhattanList))
+          foodVec = min(manhattanList)
 
         
 
         ghostPositions = successorGameState.getGhostPositions()
 
-        ghostPosVec = 0
-        for ghostPosition in ghostPositions:
-          ghostPosVec += self.getManhattanDistance(newPos, ghostPosition)
+        
+
+        ghostManhattan = min(map(lambda pos:self.getManhattanDistance(pos, newPos),ghostPositions))
 
                 
         ghostWeight = 1
         foodWeight = 1
-        scoreWeight = - (successorScore - currentGameState.getScore()) * 1.25
+        stopWeight = 0
+        ghostPosWeight = 0
+        if action == 'Stop':
+          stopWeight = 100
 
-        return (ghostWeight * ghostPosVec) + (foodWeight * foodVec) + (scoreWeight * successorScore)
+        if newPos in ghostPositions:
+          ghostPosWeight = 250
+
+        score = (ghostManhattan - foodVec + successorScore - 0 - 0)
+        # print score
+
+
+        return score
 
 def scoreEvaluationFunction(currentGameState):
     """
@@ -288,7 +298,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         return (evalVal, bestAction)
 
 
-      value = -100000
+      value = -1000000
       actionList = gameState.getLegalActions(agentIndex)   
 
       for action in actionList:
@@ -328,13 +338,12 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
       if gameState.isWin() or gameState.isLose():
         return (float(self.evaluationFunction(gameState)), bestAction)
 
-
-      # value = 100000
-
       actionList = gameState.getLegalActions(agentIndex)
 
       if len(actionList) != 0:
-        weight = float (1)/ float(len(actionList))
+        weight = float (1)#/ float(len(actionList))
+      else:
+        weight = float (1)
       expectimax_value = float(0)
 
 
@@ -374,17 +383,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           bestAction = action
 
 
-      if bestAction == 'Stop':
-        equalityList = filter(lambda pair: pair[0] != value,debugList)
-
-        if len(equalityList) != 0:
-          pairsList = filter(lambda pair:pair[1] != 'Stop',debugList)
-          bestAction = filter(lambda pair:pair[0]==value,pairsList)[-1][1]
-          
-        if bestAction == 'East':
-          print "DEBUG-LIST", debugList
-      # print "DEBUG-LIST", debugList, "BEST-ACTION", bestAction
-
+      
       return (value, bestAction)
 
     def getAction(self, gameState):
@@ -399,6 +398,10 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         return self.maximizer(gameState, 0, 0)[1] 
         util.raiseNotDefined()
 
+
+def getManhattanDistance(pos1, pos2):
+  return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
+
 def betterEvaluationFunction(currentGameState):
     """
       Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
@@ -406,7 +409,50 @@ def betterEvaluationFunction(currentGameState):
 
       DESCRIPTION: <write something here so we know what you did>
     """
+    successorGameState = currentGameState
+    newPos = successorGameState.getPacmanPosition()
+    newFood = successorGameState.getFood()
+    newGhostStates = successorGameState.getGhostStates()
+    newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
+
     "*** YOUR CODE HERE ***"
+    successorScore = successorGameState.getScore()
+    
+
+    manhattanList = map(lambda pos : getManhattanDistance(newPos, pos), newFood.asList())
+
+    if len(manhattanList) == 0:
+      return 10000
+    else:
+      foodVec = min(manhattanList)
+
+    
+
+    ghostPositions = successorGameState.getGhostPositions()
+
+    
+
+    maxGhost = max(map(lambda pos:getManhattanDistance(pos, newPos),ghostPositions))
+
+    if maxGhost == 0:
+      return -1000000
+    ghostManhattan = -(float(1)/float(maxGhost))
+
+            
+    ghostWeight = 1
+    foodWeight = 1
+    stopWeight = 0
+    ghostPosWeight = 0
+
+
+    if newPos in ghostPositions:
+      ghostPosWeight = 300
+
+    score = (ghostManhattan - foodVec + successorScore - stopWeight - ghostPosWeight)
+    # print score
+
+
+    return score
     util.raiseNotDefined()
 
 # Abbreviation
