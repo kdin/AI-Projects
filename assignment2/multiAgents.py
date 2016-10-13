@@ -86,28 +86,18 @@ class ReflexAgent(Agent):
         if len(manhattanList) == 0:
           return 10000
         else:
-          foodVec = min(manhattanList)
-
-        
+          foodVec = min(manhattanList)     
 
         ghostPositions = successorGameState.getGhostPositions()
-
-        
 
         ghostManhattan = min(map(lambda pos:self.getManhattanDistance(pos, newPos),ghostPositions))
 
                 
         ghostWeight = 1
         foodWeight = 1
-        stopWeight = 0
-        ghostPosWeight = 0
-        if action == 'Stop':
-          stopWeight = 100
+       
 
-        if newPos in ghostPositions:
-          ghostPosWeight = 250
-
-        score = (ghostManhattan - foodVec + successorScore - 0 - 0)
+        score = ((ghostWeight * ghostManhattan) - (foodWeight * foodVec) + successorScore)
         # print score
 
 
@@ -184,10 +174,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
 
         if prevValue > value:
           bestAction = action
-
-
-
-
 
       # print "(VALUE, BESTACTION)", (value, bestAction)
       return (value, bestAction)
@@ -430,8 +416,6 @@ def betterEvaluationFunction(currentGameState):
 
     ghostPositions = successorGameState.getGhostPositions()
 
-    
-
     maxGhost = max(map(lambda pos:getManhattanDistance(pos, newPos),ghostPositions))
 
     if maxGhost == 0:
@@ -441,16 +425,13 @@ def betterEvaluationFunction(currentGameState):
             
     ghostWeight = 1
     foodWeight = 1
-    stopWeight = 0
+    
     ghostPosWeight = 0
-
-
     if newPos in ghostPositions:
       ghostPosWeight = 300
 
-    score = (ghostManhattan - foodVec + successorScore - stopWeight - ghostPosWeight)
+    score = ((ghostWeight * ghostManhattan) - (foodWeight * foodVec) + successorScore - ghostPosWeight)
     # print score
-
 
     return score
     util.raiseNotDefined()
