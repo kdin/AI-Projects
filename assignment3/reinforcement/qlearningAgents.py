@@ -45,6 +45,9 @@ class QLearningAgent(ReinforcementAgent):
 
         "*** YOUR CODE HERE ***"
 
+        self.qValues = util.Counter()
+
+
     def getQValue(self, state, action):
         """
           Returns Q(state,action)
@@ -52,6 +55,11 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
+
+        if (state, action) in self.qValues:
+          return self.qValues[(state,action)]
+        else:
+          return 0.0
         util.raiseNotDefined()
 
 
@@ -63,6 +71,13 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
+        legalActions = self.getLegalActions(state)
+
+        if len(legalActions) == 0:
+          return 0.0
+        else:
+          return max([self.getQValue(state, legalAction) for legalAction in legalActions])
+
         util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):
@@ -72,6 +87,22 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
+        legalActions = self.getLegalActions(state)
+
+        if len(legalActions) == 0:
+          return None
+        else:
+          maximum = -100000000
+          maxActions = []
+          for action in legalActions:
+            if self.getQValue(state, action) > maximum:
+              maximum = self.getQValue(state, action)
+              maxActions = []
+              maxActions.append(action)
+            elif self.getQValue(state, action) == maximum:
+              maxActions.append(action)
+
+          return random.choice(maxActions)
         util.raiseNotDefined()
 
     def getAction(self, state):
@@ -103,7 +134,14 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        prevQValue = self.qValues[(state,action)]
+        if len(self.getLegalActions(nextState)) == 0:
+          sampleQValue = reward
+        else:
+          sampleQValue = reward + ((self.discount) * max([self.qValues[(nextState, nextAction)] for nextAction in self.getLegalActions(nextState)]))
+
+        self.qValues[(state, action)] += (self.alpha * (sampleQValue - prevQValue))
+        
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
