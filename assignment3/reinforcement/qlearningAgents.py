@@ -199,7 +199,8 @@ class ApproximateQAgent(PacmanQAgent):
         self.featExtractor = util.lookup(extractor, globals())()
         PacmanQAgent.__init__(self, **args)
         self.weights = util.Counter()
-
+        self.gamma = args['gamma']
+        self.alpha = args['alpha']
     def getWeights(self):
         return self.weights
 
@@ -209,6 +210,15 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
+
+        weightedFeaturesSum = float(0)
+        featureVector = self.featExtractor.getFeatures(state, action) 
+        for feature in featureVector:
+          # print "FEATURE:", featureVector[feature]
+          # print "WEIGHTS:", self.weights[featureVector[feature]]
+          weightedFeaturesSum += float(self.weights[feature])*float(featureVector[feature])
+
+        return weightedFeaturesSum
         util.raiseNotDefined()
 
     def update(self, state, action, nextState, reward):
@@ -216,7 +226,20 @@ class ApproximateQAgent(PacmanQAgent):
            Should update your weights based on transition
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        prevQValue = self.getQValue(state, action)
+        if len(self.getLegalActions(nextState)) == 0:
+          sampledQValue = reward
+        else:
+          sampledQValue = reward + (self.gamma * max([self.getQValue(nextState, nextAction) for nextAction in self.getLegalActions(nextState)]))
+        difference = sampledQValue - prevQValue
+
+        featureVector = self.featExtractor.getFeatures(state, action)
+        
+        for feature in featureVector:
+          self.weights[feature] += (self.alpha * difference * featureVector[feature]) 
+
+        
+
 
     def final(self, state):
         "Called at the end of each game."
@@ -227,4 +250,5 @@ class ApproximateQAgent(PacmanQAgent):
         if self.episodesSoFar == self.numTraining:
             # you might want to print your weights here for debugging
             "*** YOUR CODE HERE ***"
+
             pass
