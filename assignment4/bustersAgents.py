@@ -128,6 +128,19 @@ class GreedyBustersAgent(BustersAgent):
         BustersAgent.registerInitialState(self, gameState)
         self.distancer = Distancer(gameState.data.layout, False)
 
+
+    def maxProbPosition(self, belief):
+        
+        maximum = -1000
+        psoition = ()
+
+        for item in belief:
+            if belief[item] > maximum:
+                maximum = belief[item]
+                position = item
+
+        return position
+
     def chooseAction(self, gameState):
         """
         First computes the most likely position of each ghost that has
@@ -162,5 +175,31 @@ class GreedyBustersAgent(BustersAgent):
         livingGhostPositionDistributions = \
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        
+
+        livingGhostPositions = []
+        for ghost in xrange(1, len(livingGhosts)):
+            if livingGhosts[ghost]:
+                ghostBelief = self.ghostBeliefs[ghost-1]
+                ghostPosition = self.maxProbPosition(ghostBelief)
+                livingGhostPositions.append(ghostPosition)
+
+        minGhostDistance = 1000
+        minGhostPosition = ()
+        for ghostPosition in livingGhostPositions:
+            ghostDistance = self.distancer.getDistance(ghostPosition, pacmanPosition)
+            if ghostDistance < minGhostDistance:
+                minGhostDistance = ghostDistance
+                minGhostPosition = ghostPosition
+
+        closestAction = ''
+        minDistance = 1000
+
+        for action in legal:
+            successorPosition = Actions.getSuccessor(pacmanPosition, action)
+            localDistance = self.distancer.getDistance(successorPosition, minGhostPosition)
+            if localDistance < minDistance:
+                minDistance = localDistance
+                closestAction = action
+
+        return closestAction
