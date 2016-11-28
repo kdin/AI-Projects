@@ -175,8 +175,18 @@ def enhancedPacmanFeatures(state, action):
     It should return a counter with { <feature name> : <feature value>, ... }
     """
     features = util.Counter()
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    ghostPositions = state.getGhostPositions()
+    pacmanPosition = state.generateSuccessor(0, action).getPacmanPosition()
+
+    if len(ghostPositions) == 0:
+        closestGhost = 0
+    else:
+        closestGhost = min([util.manhattanDistance(pacmanPosition, gP) for gP in ghostPositions])
+
+    features['closestGhost'] = closestGhost
+    features['score'] = state.getScore()
+    features['capsules'] = len(state.getCapsules())
+    features['hasFood'] = 1 if state.hasFood(pacmanPosition) else 0
     return features
 
 
