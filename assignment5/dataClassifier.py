@@ -88,7 +88,15 @@ def enhancedFeatureExtractorDigit(datum):
     diagonals = 0
     centerVertical = 0
     centerHorizontal = 0
+
+    leftTop = 0
+    rightTop = 0
+    leftBottom = 0
+    rightBottom = 0
     
+    VERTICAL_HALF = DIGIT_DATUM_WIDTH/2
+    HORIZONTAL_HALF = DIGIT_DATUM_HEIGHT/2
+
     for position in features:
         if position[1] >= (DIGIT_DATUM_WIDTH/2) and features[position] == 1:
             rightCount += 1
@@ -103,6 +111,15 @@ def enhancedFeatureExtractorDigit(datum):
         if position[1] == DIGIT_DATUM_HEIGHT/2 and features[position] ==1:
             centerHorizontal += 1
 
+        if position[0] <= VERTICAL_HALF and position[1] <=HORIZONTAL_HALF and features[position] == 1:
+            leftTop += 1
+        if position[0] > VERTICAL_HALF and position[1]<= HORIZONTAL_HALF and features[position] == 1:
+            rightTop += 1
+        if position[0] <= VERTICAL_HALF and position[1] > HORIZONTAL_HALF and features[position] == 1:
+            leftBottom += 1
+        if position[0] > VERTICAL_HALF and position[1] > HORIZONTAL_HALF and features[position] == 1:
+            rightBottom += 1 
+
 
 
 
@@ -110,22 +127,27 @@ def enhancedFeatureExtractorDigit(datum):
     if rightCount > leftCount:
         features['widthCount'] = 0
     else:
-        features['widthCount'] = 1
+        features['widthCount'] = leftCount
 
     if diagonals >= 5:
-        features['diagonals'] = 1
+        features['diagonals'] = diagonals
     else:
         features['diagonals'] = 0
 
     if centerVertical >= 13:
         features['centerVertical'] = 0
     else:
-        features['centerVertical'] = 1
+        features['centerVertical'] = centerVertical
     
     if centerHorizontal >= 8:
         features['centerHorizontal'] = 0
     else:
-        features['centerHorizontal'] = 1
+        features['centerHorizontal'] = centerHorizontal
+
+    features['leftTop'] = 0 if leftTop>=10 else 1
+    features['rightTop'] = 0 if rightTop>= 10 else 1
+    features['leftBottom'] = 0 if leftBottom>= 10 else 1
+    features['rightBottom'] = 0 if rightBottom>=10 else 1
 
 
 
@@ -180,13 +202,25 @@ def enhancedPacmanFeatures(state, action):
 
     if len(ghostPositions) == 0:
         closestGhost = 0
+        prevClosest = 0
     else:
         closestGhost = min([util.manhattanDistance(pacmanPosition, gP) for gP in ghostPositions])
+        prevClosest = min([util.manhattanDistance(state.getPacmanPosition(), gP) for gP in ghostPositions])
 
-    features['closestGhost'] = closestGhost
-    features['score'] = state.getScore()
-    features['capsules'] = len(state.getCapsules())
-    features['hasFood'] = 1 if state.hasFood(pacmanPosition) else 0
+
+    # features['closestGhost'] = closestGhost
+    # features['nextClosestGhost'] = min([util.manhattanDistance(state.getPacmanPosition(), gP) for gP in ghostPositions])
+    features['score'] = 1 if state.getScore()<state.generateSuccessor(0, action).getScore() else 0
+    # features['nextScore'] = state.generateSuccessor(0, action).getScore()
+    features['numFood'] = 1 if state.getNumFood() > state.generateSuccessor(0, action).getNumFood() else 0
+    # features['nextNumFood'] = state.generateSuccessor(0, action).getNumFood()
+    features['capsules'] = 1 if len(state.getCapsules()) > len(state.generateSuccessor(0, action).getCapsules()) else 0
+    # features['nextCapsules'] = len(state.generateSuccessor(0, action).getCapsules())
+    features['isWin'] = 1 if state.generateSuccessor(0, action).isWin() else 0
+    # features['isLose'] = 0 if state.generateSuccessor(0, action).isLose() else 1
+    features['hasFood'] = 2 if state.generateSuccessor(0, action).hasFood(pacmanPosition[0], pacmanPosition[1]) else 1
+    features['suicide'] = 1 if closestGhost > prevClosest else 0
+    
     return features
 
 
