@@ -210,16 +210,35 @@ def enhancedPacmanFeatures(state, action):
 
     # features['closestGhost'] = closestGhost
     # features['nextClosestGhost'] = min([util.manhattanDistance(state.getPacmanPosition(), gP) for gP in ghostPositions])
-    features['score'] = 1 if state.getScore()<state.generateSuccessor(0, action).getScore() else 0
+    features['score'] = state.generateSuccessor(0, action).getScore()#1 if state.getScore()<state.generateSuccessor(0, action).getScore() else 0
     # features['nextScore'] = state.generateSuccessor(0, action).getScore()
     features['numFood'] = 1 if state.getNumFood() > state.generateSuccessor(0, action).getNumFood() else 0
     # features['nextNumFood'] = state.generateSuccessor(0, action).getNumFood()
-    features['capsules'] = 1 if len(state.getCapsules()) > len(state.generateSuccessor(0, action).getCapsules()) else 0
+    features['capsules'] = len(state.generateSuccessor(0, action).getCapsules())#1 if len(state.getCapsules()) > len(state.generateSuccessor(0, action).getCapsules()) else 0
     # features['nextCapsules'] = len(state.generateSuccessor(0, action).getCapsules())
-    features['isWin'] = 1 if state.generateSuccessor(0, action).isWin() else 0
-    # features['isLose'] = 0 if state.generateSuccessor(0, action).isLose() else 1
-    features['hasFood'] = 2 if state.generateSuccessor(0, action).hasFood(pacmanPosition[0], pacmanPosition[1]) else 1
-    features['suicide'] = 1 if closestGhost > prevClosest else 0
+    # features['isWin'] = 1 if state.generateSuccessor(0, action).isWin() else 0
+    # features['isLose'] = 1 if state.generateSuccessor(0, action).isLose() else 0
+    # features['hasFood'] = 2 if state.generateSuccessor(0, action).hasFood(pacmanPosition[0], pacmanPosition[1]) else 1
+    # features['suicide'] = 1 if closestGhost > prevClosest else 0
+
+
+    
+    ghostPositions = state.generateSuccessor(0, action).getGhostPositions()
+
+    ghostManhattan = min(map(lambda pos:util.manhattanDistance(pos, pacmanPosition),ghostPositions))
+
+
+    features['ghostManhattan'] = 1.0/ghostManhattan if ghostManhattan!=0 else 0
+
+
+    manhattanList = map(lambda pos : util.manhattanDistance(pacmanPosition, pos), state.generateSuccessor(0, action).getFood().asList())
+
+    if len(manhattanList) == 0:
+      features['foodManhattan'] = 100000
+    else:
+      features['foodManhattan'] = 1.0/float(min(manhattanList) )
+
+    
     
     return features
 
