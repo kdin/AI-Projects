@@ -5,7 +5,7 @@ This repository contains my solutions to projects in [UC Berkeley's CS. 188x Int
 
 There are a total of 5 assignments and one final project
 
-Here is an [overview of the assignments] (http://ai.berkeley.edu/project_overview.html)
+Here is an [overview of the assignments](http://ai.berkeley.edu/project_overview.html)
 
 The problem statements for individual assignments (the sub folders)
 * assignment1 - [Search in Pacman](http://ai.berkeley.edu/search.html)
